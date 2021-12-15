@@ -18,6 +18,10 @@ export class EmployeesService {
     return this.employeesRepository.find({});
   }
 
+  async getDeletedEmployees(): Promise<Employee[]> {
+    return this.employeesRepository.find({ isDeleted: true });
+  }
+
   async createEmployee(newEmployee: CreateEmployeeDto): Promise<Employee> {
     return this.employeesRepository.create({
       employeeId: uuidv4(),
@@ -41,7 +45,7 @@ export class EmployeesService {
     );
   }
 
-  async deleteEmployee(employeeId: string ): Promise<Employee> {
+  async deleteEmployee(employeeId: string): Promise<Employee> {
     return this.employeesRepository.findOneAndSoftDelete({ employeeId });
   }
 }

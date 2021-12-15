@@ -13,10 +13,35 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './schemas/employee.schema';
 import { EmployeesService } from './employees.service';
 
+import {
+  ApiBody,
+  ApiHeader,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+
+@ApiTags('employees')
+@ApiHeader({
+  name: 'Employee controller',
+  description: 'Manipulate employee data inside MongoDB',
+})
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
+  @ApiResponse({
+    status: 200,
+    description: 'Return a list of deleted employees',
+  })
+  @Get('/deleted')
+  async getDeletedEmployees(): Promise<Employee[]> {
+    console.log();
+    return this.employeesService.getDeletedEmployees();
+  }
+
+  @ApiResponse({ status: 200, description: 'Return a single employee' })
+  @ApiParam({ name: 'employeeId', type: 'string' })
   @Get(':employeeId')
   async getEmployee(
     @Param('employeeId') employeeId: string,
@@ -24,11 +49,20 @@ export class EmployeesController {
     return this.employeesService.getEmployeeById(employeeId);
   }
 
+  @ApiResponse({ status: 200, description: 'Return a list of employees' })
   @Get()
   async getEmployees(): Promise<Employee[]> {
     return this.employeesService.getEmployees();
   }
 
+  @ApiBody({
+    type: CreateEmployeeDto,
+    description: 'Full employee data with  optional parameter isDeleted',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The record is successfully created',
+  })
   @Post()
   async createEmployee(
     @Body() createEmployeeDto: CreateEmployeeDto,
@@ -36,6 +70,12 @@ export class EmployeesController {
     return this.employeesService.createEmployee(createEmployeeDto);
   }
 
+  @ApiResponse({ status: 200, description: 'Update a single employees' })
+  @ApiParam({ name: 'employeeId', type: 'string' })
+  @ApiBody({
+    type: UpdateEmployeeDto,
+    description: 'Partial or full employee data',
+  })
   @Patch(':employeeId')
   async updateEmployee(
     @Param('employeeId') employeeId: string,
@@ -44,6 +84,8 @@ export class EmployeesController {
     return this.employeesService.updateEmployee(employeeId, updateEmployeeDto);
   }
 
+  @ApiResponse({ status: 200, description: 'Soft deletes a single employee' })
+  @ApiParam({ name: 'employeeId', type: 'string' })
   @Delete(':employeeId')
   async deleteEmployee(
     @Param('employeeId') employeeId: string,
