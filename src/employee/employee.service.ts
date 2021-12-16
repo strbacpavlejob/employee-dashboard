@@ -3,19 +3,19 @@ import { v4 as uuidv4 } from 'uuid';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 
 import { Employee } from './schemas/employee.schema';
-import { EmployeesRepository } from './employees.repository';
+import { EmployeeRepository } from './employee.repository';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 
 @Injectable()
-export class EmployeesService {
-  constructor(private readonly employeesRepository: EmployeesRepository) {}
+export class EmployeeService {
+  constructor(private readonly employeesRepository: EmployeeRepository) {}
 
   async getEmployeeById(employeeId: string): Promise<Employee> {
     return this.employeesRepository.findOne({ employeeId });
   }
 
   async getEmployees(): Promise<Employee[]> {
-    return this.employeesRepository.find({});
+    return this.employeesRepository.find({ isDeleted: false });
   }
 
   async getDeletedEmployees(): Promise<Employee[]> {

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Employee, EmployeeSchema } from './schemas/employee.schema';
-import { EmployeesController } from './employees.controller';
-import { EmployeesRepository } from './employees.repository';
-import { EmployeesService } from './employees.service';
+import { EmployeeRepository } from './employee.repository';
+import { EmployeeService } from './employee.service';
+import { EmployeeController } from './employee.controller';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { EmployeesService } from './employees.service';
       { name: Employee.name, schema: EmployeeSchema },
     ]),
   ],
-  controllers: [EmployeesController],
-  providers: [EmployeesService, EmployeesRepository],
+  controllers: [EmployeeController],
+  providers: [EmployeeService, EmployeeRepository],
 })
 export class EmployeesModule {}

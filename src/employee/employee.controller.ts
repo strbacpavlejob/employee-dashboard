@@ -11,7 +11,7 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 
 import { Employee } from './schemas/employee.schema';
-import { EmployeesService } from './employees.service';
+import { EmployeeService } from './employee.service';
 
 import {
   ApiBody,
@@ -21,14 +21,14 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-@ApiTags('employees')
+@ApiTags('employee')
 @ApiHeader({
   name: 'Employee controller',
   description: 'Manipulate employee data inside MongoDB',
 })
-@Controller('employees')
-export class EmployeesController {
-  constructor(private readonly employeesService: EmployeesService) {}
+@Controller('employee')
+export class EmployeeController {
+  constructor(private readonly employeesService: EmployeeService) {}
 
   @ApiResponse({
     status: 200,

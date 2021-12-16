@@ -5,7 +5,7 @@ import { FilterQuery, Model } from 'mongoose';
 import { Employee } from './schemas/employee.schema';
 
 @Injectable()
-export class EmployeesRepository {
+export class EmployeeRepository {
   constructor(
     @InjectModel(Employee.name) private employeeModel: Model<Employee>,
   ) {}
